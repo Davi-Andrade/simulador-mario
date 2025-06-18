@@ -14,6 +14,46 @@ const player2 = {
     PONTOS: 0
 };
 
+const players = [{
+    NOME: "mario",
+    VELOCIDADE: 4,
+    MANOBRABILIDADE: 3,
+    PODER: 3,
+    PONTOS: 0
+},
+{
+    NOME: "peach",
+    VELOCIDADE: 3,
+    MANOBRABILIDADE: 4,
+    PODER: 2,
+    PONTOS: 0
+},{
+    NOME: "yoshi",
+    VELOCIDADE: 2,
+    MANOBRABILIDADE: 4,
+    PODER: 3,
+    PONTOS: 0
+},{
+    NOME: "bowser",
+    VELOCIDADE: 5,
+    MANOBRABILIDADE: 2,
+    PODER: 5,
+    PONTOS: 0
+},{
+    NOME: "luigi",
+    VELOCIDADE: 3,
+    MANOBRABILIDADE: 4,
+    PODER: 4,
+    PONTOS: 0
+},{
+    NOME: "donkey",
+    VELOCIDADE: 2,
+    MANOBRABILIDADE: 2,
+    PODER: 5,
+    PONTOS: 0
+}]
+
+
 
 async function rollDice(){
     return Math.floor(Math.random() * 6) + 1;
@@ -94,18 +134,18 @@ async function playRaceEngine(caracter1, caracter2){
             if(powerResult1 > powerResult2 && caracter2.PONTOS > 0){
                 console.log(`${caracter1.NOME} venceu o confronto com ${bomb>1?"BOMBA!!":"CASCO!!"} ${bonus==1?"BONUS +1 Ponto":""} ${caracter2.NOME} perdeu ${bomb} ponto(s) `)
                 caracter2.PONTOS-=bomb
-                caracter2.PONTOS < 0? 0 : caracter2.PONTOS
+                caracter2.PONTOS <= 0? 0 : caracter2.PONTOS
                 bonus == 1? caracter1.PONTOS++:caracter1.PONTOS;
             }
             if(powerResult2 > powerResult1 && caracter1.PONTOS > 0){
                 console.log(`${caracter2.NOME} venceu o confronto com ${bomb>1?"BOMBA!!":"CASCO!!"} ${bonus==1?"BONUS +1 Ponto":""} ${caracter1.NOME} perdeu ${bomb} ponto(s) `)
                 caracter1.PONTOS-=bomb
-                caracter1.PONTOS < 0? 0 : caracter1.PONTOS
+                caracter1.PONTOS <= 0? 0 : caracter1.PONTOS
                 bonus == 1? caracter2.PONTOS++:caracter2.PONTOS;
             }
             console.log(powerResult1==powerResult2 ? "Confronto empatado! Nenhum ponto foi perdido" : "")
 
-            
+
         }
 
         if(totalTestSkill1 > totalTestSkill2){
@@ -120,8 +160,17 @@ async function playRaceEngine(caracter1, caracter2){
     
 }
 
+
 (async function main(){
+
+    let player1 = players[Math.floor(Math.random() * 6)]
+    let player2 = players[Math.floor(Math.random() * 6)]
+    while(player2 == player1){
+        player2 = players[Math.floor(Math.random() * 6)]
+    }
+
     console.log(`Corrida entre ${player1.NOME} e ${player2.NOME} começando \n`)
+
     await playRaceEngine(player1,player2)
     await declareWinner(player1,player2)
 })();
